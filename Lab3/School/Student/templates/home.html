@@ -1,0 +1,48 @@
+<html  lang='en'>
+    <head>
+    <meta  charset='UTF-8'>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>home page is here my friend</title>
+    </head>
+<body>
+ <ul>
+    <li> <a href="{% url 'show' %}">Show</a></li>
+        <li> <a href="{% url 'edit' %}">Edit</a></li>
+    <li> <a href="{% url 'delete' %}">Delete</a></li>
+
+</ul> 
+<hr>
+<h1> the id is :{{id}}</h1>
+<h1> the name :{{name}}</h1>
+<h1> the marks :{{marks}}</h1>
+<h1> the dictionary is :{{eachsub}}</h1>
+<a href="{% url 'home' %}"> Go Back</a>
+<p><filtter examples/p>
+<h1> the name :{{name| capfirst}}</h1>
+<h1> the name :{{name| upper}}</h1>
+<h1> the name :{{name| lower}}</h1>
+<h1> the name :{{name| length}}</h1>
+<h1> the name :{{name| slice:'1:4'}}</h1>
+<h1> the name :{{name| add:"Ibb Univwersity"}}</h1>
+<h1> the name :{{name| cut:"alyeaser"}}</h1>
+<hr>
+<h1>if</h1>
+{% if 'gpa' > '90' %}
+<p>Excelent</p>
+{%endif%}
+<h1>if else</h1>
+ {% if 'gpa' <  '90' %} 
+ <p>GOOD GOOD</p>
+ {% endif %}
+ <h1>  else if </h1>
+ {% if 'gpa' < '80' %}
+ <p>good</p>
+ {% endif %}
+ <h1> for loop</h1>
+ <u>
+ {% for key,val in marks.items %}
+ <li> {{key}}:{{val}}</li>
+ {% endfor %}
+ </ul>
+</body>
+</html> 
