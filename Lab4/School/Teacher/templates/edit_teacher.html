@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8" />
+    <title>تعديل بيانات المدرس</title>
+</head>
+<body>
+    <h1>تعديل بيانات المدرس</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label>اسم المدرس:</label>
+        <input type="text" name="teacher_name" value="{{ teacher.teacher_name }}" required /><br>
+
+        <label>المادة:</label>
+        <input type="text" name="subject" value="{{ teacher.subject }}" required /><br>
+
+        <button type="submit">حفظ التغييرات</button>
+    </form>
+    <a href="{% url 'teacher_details' %}">رجوع للتفاصيل</a>
+</body>
+</html>

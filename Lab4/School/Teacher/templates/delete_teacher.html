@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8" />
+    <title>تأكيد حذف المدرس</title>
+</head>
+<body>
+    <h1>تأكيد حذف المدرس</h1>
+    <p>هل أنت متأكد من حذف المدرس: {{ teacher.teacher_name }}؟</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">نعم، حذف</button>
+        <a href="{% url 'teacher_details' %}">إلغاء</a>
+    </form>
+</body>
+</html>

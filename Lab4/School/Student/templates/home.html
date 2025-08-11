@@ -1,0 +1,62 @@
+{% comment %} {% extends "base.html" %} {% endcomment %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>home page is here my friend</title>
+    {% include "header.html" %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+<ul>
+    <li style="color:Green"><a href="{% url 'show' %}">Show</a></li>
+    <li><a href="{% url 'edit' %}">Edit</a></li>
+    <li><a href="{% url 'delete' %}">Delete</a></li>
+</ul> 
+<hr>
+<h1>The id is: {{ id }}</h1>
+<h1>The name: {{ name }}</h1>
+<h1>The marks: {{ marks }}</h1>
+<h1>The dictionary is: {{ eachsub }}</h1>
+<a href="{% url 'home' %}">Go Back</a>
+
+<p>Filter examples:</p>
+<h1>The name: {{ name|capfirst }}</h1>
+<h1>The name: {{ name|upper }}</h1>
+<h1>The name: {{ name|lower }}</h1>
+<h1>The name length: {{ name|length }}</h1>
+<h1>The name slice: {{ name|slice:'1:4' }}</h1>
+<h1>The name cut "alyeaser": {{ name|cut:"alyeaser" }}</h1>
+
+<hr>
+
+<h1>If examples</h1>
+{% if gpa > 90 %}
+    <p>Excellent</p>
+{% elif gpa > 80 %}
+    <p>Good</p>
+{% else %}
+    <p>Needs Improvement</p>
+{% endif %}
+
+<h1>For loop example</h1>
+<ul>
+{% for key, val in marks.items %}
+    <li>{{ key }}: {{ val }}</li>
+{% endfor %}
+</ul>
+
+<hr>
+<h1>This is Custom Filter Examples</h1>
+<p>{{ "The Name In Filter is Fattah Alrhman Alyeasery:" | print_name }}</p>
+<h1>{{ '[99,98,90,92]' | show_filter }}</h1>
+
+{% include 'footer.html' %}
+</body>
+</html>
+{% endblock %}

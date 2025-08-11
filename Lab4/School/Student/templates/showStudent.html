@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Students Table</title>
+    <style>
+        table {
+            background-color: rgba(143, 13, 82, 1);
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            height: 50%;
+            margin-top: 15%;
+            border-collapse: collapse;
+            color: white;
+        }
+        table, th, td {
+            border: 1px solid white;
+        }
+        th, td {
+            padding: 10px;
+        }
+        h1 {
+            text-align: center;
+            background-color: Green;
+            color: white;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Hellow for All Students Show</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>GPA</th>
+            <th>Level</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.age }}</td>
+            <td>{{ student.gpa }}</td>
+            <td>{{ student.level }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

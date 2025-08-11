@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8" />
+    <title>تفاصيل المدرس</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; 
+            background-color: #f0f8ff; 
+            padding: 20px; 
+            direction: rtl;
+        }
+        h1 {
+            color: green;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #e3f2fd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #999;
+            text-align: center;
+        }
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #c8e6c9;
+        }
+        a {
+            color: #2196f3;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+        a.home-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #4caf50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a.home-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>قائمة المدرسين</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>الاسم</th>
+                <th>المادة</th>
+                <th>البريد الإلكتروني</th>
+                <th>رقم الهاتف</th>
+                <th>الخبرة</th>
+                <th>العنوان</th>
+                <th>ملاحظات</th>
+                <th>إجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for teacher in teachers %}
+            <tr>
+                <td>{{ teacher.name }}</td>
+                <td>{{ teacher.subject }}</td>
+                <td>{{ teacher.email }}</td>
+                <td>{{ teacher.phone }}</td>
+                <td>{{ teacher.experience }}</td>
+                <td>{{ teacher.address }}</td>
+                <td>{{ teacher.notes }}</td>
+                <td>
+                    <a href="{% url 'teacher_details' %}">تفاصيل</a>
+                    <a href="{% url 'edit_teacher' %}">تعديل</a>
+                    <a href="{% url 'delete_teacher' %}">حذف</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" style="text-align:center;">لا يوجد مدرسون.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="home-link" href="{% url 'home' %}">العودة للرئيسية</a>
+
+    <footer>
+        &copy; 2025 جميع الحقوق محفوظة
+    </footer>
+</body>
+</html>
