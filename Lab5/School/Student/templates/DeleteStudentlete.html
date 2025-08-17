@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>حذف الطالب</title>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #ff512f, #dd2476);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 10% auto;
+            background: #fff;
+            color: #333;
+            width: 40%;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
+        }
+        h2 {
+            color: #dd2476;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            margin: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .confirm {
+            background: #dd2476;
+            color: white;
+        }
+        .cancel {
+            background: #ccc;
+        }
+        .confirm:hover {
+            background: #ff512f;
+        }
+        .cancel:hover {
+            background: #999;
+        }
+    </style>
+</head>
+<body>
+    <!-- زر العودة -->
+<a href="{% url 'home' %}" 
+   style="
+       display: inline-block;
+       margin: 20px;
+       padding: 10px 20px;
+       background: linear-gradient(90deg, #ff512f, #dd2476);
+       color: white;
+       text-decoration: none;
+       border-radius: 10px;
+       font-weight: bold;
+       transition: 0.3s;
+   "
+   onmouseover="this.style.transform='scale(1.05)';" 
+   onmouseout="this.style.transform='scale(1)';"
+>
+   🔙 العودة إلى القائمة الرئيسية
+</a>
+
+    <div class="container">
+        <h2>⚠️ هل أنت متأكد من حذف الطالب "{{ student.Name }}"؟</h2>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="confirm">نعم، حذف</button>
+            <a href="{% url 'show' %}">
+                <button type="button" class="cancel">إلغاء</button>
+            </a>
+        </form>
+    </div>
+</body>
+</html>

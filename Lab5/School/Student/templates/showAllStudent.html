@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 30px 0;
+            font-size: 3em;
+            background: linear-gradient(90deg, #ff512f, #dd2476);
+            margin-bottom: 20px;
+            border-radius: 0 0 25px 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* زر إضافة طالب جديد */
+        .add-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #1fa2ff, #12d8fa);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        .add-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #12d8fa, #1fa2ff);
+        }
+
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        table:hover { transform: scale(1.02); }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        th {
+            background: rgba(255,255,255,0.2);
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+
+        tr:hover { background: rgba(255,255,255,0.1); cursor: pointer; }
+        tr:nth-child(even) { background: rgba(255,255,255,0.05); }
+
+        .empty-row { text-align: center; font-size: 1.2em; color: #ffeb3b; }
+        td.id-cell { font-weight: 600; color: #00ffea; }
+        td.gpa-cell { font-weight: 600; color: #ffea00; }
+
+        /* أزرار العمليات */
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            margin: 2px;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .edit-btn { background: #2575fc; }
+        .edit-btn:hover { background: #6a11cb; }
+        .delete-btn { background: #e74c3c; }
+        .delete-btn:hover { background: #ff512f; }
+        .view-btn { background: #38ef7d; color: #000; }
+        .view-btn:hover { background: #11998e; color: #fff; }
+    </style>
+</head>
+<body>
+<!-- زر العودة -->
+<a href="{% url 'home' %}" 
+   style="
+       display: inline-block;
+       margin: 20px;
+       padding: 10px 20px;
+       background: linear-gradient(90deg, #ff512f, #dd2476);
+       color: white;
+       text-decoration: none;
+       border-radius: 10px;
+       font-weight: bold;
+       transition: 0.3s;
+   "
+   onmouseover="this.style.transform='scale(1.05)';" 
+   onmouseout="this.style.transform='scale(1)';"
+>
+   🔙 العودة إلى القائمة الرئيسية
+</a>
+
+<h1>🚀 Students Dashboard</h1>
+
+<!-- زر إضافة طالب جديد -->
+<a href="{% url 'add_student' %}" class="add-btn">➕ إضافة طالب جديد</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Level</th>
+            <th>Gender</th>
+            <th>GPA</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td class="id-cell">{{ student.id }}</td>
+            <td>{{ student.Name }}</td>
+            <td>{{ student.Age }}</td>
+            <td>{{ student.Level }}</td>
+            <td>{% if student.Gender %}Male{% else %}Female{% endif %}</td>
+            <td class="gpa-cell">{{ student.GPA }}</td>
+            <td>
+                <a href="{% url 'edit' student.id %}" class="action-btn edit-btn">✏️ تعديل</a>
+                <a href="{% url 'delete' student.id %}" class="action-btn delete-btn">🗑️ حذف</a>
+                <a href="{% url 'Read_One_Student' student.id %}" class="action-btn view-btn">👁️ عرض</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="empty-row">لا توجد طلاب!</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>

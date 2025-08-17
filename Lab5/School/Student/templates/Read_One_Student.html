@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>عرض الطالب</title>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 5% auto;
+            width: 50%;
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+        }
+        h2 {
+            text-align: center;
+            color: #11998e;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background: #11998e;
+            color: white;
+        }
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            background: #38ef7d;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+        .back-btn:hover {
+            background: #11998e;
+        }
+    </style>
+</head>
+<body>
+    <!-- زر العودة -->
+<a href="{% url 'home' %}" 
+   style="
+       display: inline-block;
+       margin: 20px;
+       padding: 10px 20px;
+       background: linear-gradient(90deg, #ff512f, #dd2476);
+       color: white;
+       text-decoration: none;
+       border-radius: 10px;
+       font-weight: bold;
+       transition: 0.3s;
+   "
+   onmouseover="this.style.transform='scale(1.05)';" 
+   onmouseout="this.style.transform='scale(1)';"
+>
+   🔙 العودة إلى القائمة الرئيسية
+</a>
+
+    <div class="container">
+        <h2>👨‍🎓 بيانات الطالب</h2>
+        <table>
+            <tr>
+                <th>الاسم</th>
+                <td>{{ student.Name }}</td>
+            </tr>
+            <tr>
+                <th>العمر</th>
+                <td>{{ student.Age }}</td>
+            </tr>
+            <tr>
+                <th>المستوى</th>
+                <td>{{ student.Level }}</td>
+            </tr>
+            <tr>
+                <th>الجنس</th>
+                <td>{% if student.Gender %} ذكر {% else %} أنثى {% endif %}</td>
+            </tr>
+            <tr>
+                <th>المعدل</th>
+                <td>{{ student.GPA }}</td>
+            </tr>
+        </table>
+        <a class="back-btn" href="{% url 'show' %}">🔙 الرجوع لقائمة الطلاب</a>
+    </div>
+</body>
+</html>

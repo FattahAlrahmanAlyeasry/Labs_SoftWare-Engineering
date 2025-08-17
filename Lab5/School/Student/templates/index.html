@@ -1,0 +1,30 @@
+{% comment %} <h1>the name :{{name}}</h1> {% endcomment %}
+{% comment %} <h2>id={{id|capfirst}}</h2>
+<h3>Age={{Age|capfirst}}</h3>
+{% comment %} <h1>the name :{{name|capfirst}}</h1> {% endcomment %}
+{% comment %} <h1>the name :{{name|slice:':?'}}</h1> {% endcomment %}
+{% comment %} <h1>the name :{{name|slice:'1:10'}}</h1> {% endcomment %}
+{% comment %} <h1>the name :{{name|slice:':'}}</h1> {% endcomment %}
+{% comment %} <h2>id={{id|default:"not found"}}</h2> {% endcomment %} 
+{% comment %} <h1>the name :{{name|length}}</h1> {% endcomment %}
+{% comment %} <h1>the name :{{name|add:" student"}}</h1> {% endcomment %}
+{% comment %} <h1>the name :{{name|upper}}</h1> {% endcomment %}
+{% comment %} <h1>the name :{{name|lower}}</h1> {% endcomment %}
+{% comment %} <h1>the name :{{name|cut:"alrhman"}}</h1> {% endcomment %}
+{% comment %} <h1>the file size :{{Age|filesizeformat}}</h1> {% endcomment %}
+
+{% comment %} <!DOCTYPE html>
+<html  lang='en'>
+    <head>
+    <meta  charset='utf-8'>
+    <title>home page is here my friend</title>
+    </head>
+<body>
+<ul>
+    <li> <a href="{%url 'Show' %}">Show</a></li>
+        <li> <a href="{% url 'Edit'%}">Edit</a></li>
+    <li> <a href="{% url 'Delete'%}">Delte</a></li>
+
+</ul>
+</body>
+</html> {% endcomment %}

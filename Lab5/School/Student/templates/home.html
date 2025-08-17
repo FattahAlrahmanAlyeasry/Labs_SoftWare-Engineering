@@ -1,0 +1,155 @@
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Home Dashboard</title>
+    {% include "header.html" %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            color: #fff;
+        }
+
+        h1, h2, h3, p {
+            margin: 10px 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        a.button {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #ff512f, #dd2476);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        a.button:hover {
+            transform: scale(1.05);
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 6px 0;
+        }
+
+        hr {
+            border: 1px dashed rgba(255,255,255,0.2);
+            margin: 30px 0;
+        }
+
+        .section-title {
+            background: linear-gradient(90deg, #00f260, #0575e6);
+            padding: 8px 15px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 1.4em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🌟 Student Dashboard</h1>
+    <a href="{% url 'home' %}" class="button">🏠 العودة للرئيسية</a>
+<div class="container">
+    <h1>🌟 Student Dashboard</h1>
+
+    <!-- أزرار التنقل -->
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'home' %}" class="button">🏠 العودة للرئيسية</a>
+        <a href="{% url 'show' %}" class="button" style="background: linear-gradient(90deg, #ffde00, #ff512f); color:#000;">👨‍🎓 عرض كل الطلاب</a>
+    </div>
+
+    <div class="card">
+        <h2 class="section-title">Student Info</h2>
+        <p><strong>ID:</strong> {{ id }}</p>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Marks:</strong> {{ marks }}</p>
+        <p><strong>Subjects Dictionary:</strong> {{ eachsub }}</p>
+    </div>
+    ...
+
+    <div class="card">
+        <h2 class="section-title">Student Info</h2>
+        <p><strong>ID:</strong> {{ id }}</p>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Marks:</strong> {{ marks }}</p>
+        <p><strong>Subjects Dictionary:</strong> {{ eachsub }}</p>
+    </div>
+
+    <div class="card">
+        <h2 class="section-title">Filter Examples</h2>
+        <p><strong>Capitalize:</strong> {{ name|capfirst }}</p>
+        <p><strong>Uppercase:</strong> {{ name|upper }}</p>
+        <p><strong>Lowercase:</strong> {{ name|lower }}</p>
+        <p><strong>Length:</strong> {{ name|length }}</p>
+        <p><strong>Slice (1:4):</strong> {{ name|slice:'1:4' }}</p>
+        <p><strong>Cut "alyeaser":</strong> {{ name|cut:"alyeaser" }}</p>
+    </div>
+
+    <div class="card">
+        <h2 class="section-title">Conditional Example</h2>
+        {% if gpa > 90 %}
+            <p>Excellent 🎉</p>
+        {% elif gpa > 80 %}
+            <p>Good 👍</p>
+        {% else %}
+            <p>Needs Improvement ⚠️</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2 class="section-title">For Loop Example</h2>
+        <ul>
+            {% for key, val in marks.items %}
+                <li><strong>{{ key }}:</strong> {{ val }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2 class="section-title">Custom Filter Examples</h2>
+        <p>{{ "The Name In Filter is Fattah Alrhman Alyeasery:" | print_name }}</p>
+        <p>{{ '[99,98,90,92]' | show_filter }}</p>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+</body>
+</html>
+{% endblock %}
