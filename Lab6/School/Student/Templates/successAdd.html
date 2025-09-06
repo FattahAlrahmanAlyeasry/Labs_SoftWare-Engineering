@@ -1,8 +1,14 @@
+{% extends 'base.html' %}
 
-</style>
-{% include 'base.html' %}
-{%  include 'header.html'  %}
- {% block  content %}
-<h1>لقد تم اظافه  الطالب بنجاح</h1>
-{% endblock content  %} 
-{% include 'footer.html' %}
+{% block title %}تم الإضافة بنجاح - نظام إدارة المدرسة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>تم الإضافة بنجاح</h2>
+    <div class="alert alert-success">تم إضافة الطالب بنجاح.</div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'Show' %}" class="btn">العودة إلى قائمة الطلاب</a>
+        <a href="{% url 'add' %}" class="btn btn-secondary">إضافة طالب آخر</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مرحبًا بك في نظام إدارة المدرسة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+        p {
+            line-height: 1.6;
+            color: #333;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #777;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>مرحبًا {{ username }}!</h1>
+        <p>شكرًا لتسجيلك في نظام إدارة المدرسة. نحن سعداء بانضمامك إلينا.</p>
+        <p>يمكنك تسجيل الدخول الآن باستخدام اسم المستخدم وكلمة المرور الخاصة بك.</p>
+        <div class="footer">
+            <p>تحيات،<br>فريق إدارة المدرسة</p>
+        </div>
+    </div>
+</body>
+</html>

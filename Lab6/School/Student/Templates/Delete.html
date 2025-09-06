@@ -1,84 +1,24 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حذف طالب</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            direction: rtl;
-            margin: 0;
-            padding: 20px;
-        }
-        .delete-container {
-            max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .warning {
-            color: #dc3545;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-        .student-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        .btn {
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-        .btn:hover {
-            opacity: 0.8;
-        }
-    </style>
-</head>
-<body>
-    <div class="delete-container">
-        <h2>تأكيد حذف الطالب</h2>
-        
-        {% if error %}
-            <div class="alert alert-error">{{ error }}</div>
-        {% else %}
-            <div class="warning">
-                ⚠️ هل أنت متأكد من حذف هذا الطالب؟
+{% extends 'base.html' %}
+
+{% block title %}حذف طالب - نظام إدارة المدرسة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>حذف طالب</h2>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'Show' %}" class="btn">العودة إلى قائمة الطلاب</a>
+        </div>
+    {% else %}
+        <p style="text-align: center; font-size: 1.2em; margin-bottom: 30px;">هل أنت متأكد من أنك تريد حذف الطالب <strong>{{ st.name }}</strong>؟ هذا الإجراء لا يمكن التراجع عنه.</p>
+        <form method="post">
+            {% csrf_token %}
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-danger">نعم، حذف</button>
+                <a href="{% url 'Show' %}" class="btn btn-secondary">إلغاء</a>
             </div>
-            
-            <div class="student-info">
-                <h3>{{ st.name }}</h3>
-                <p>العمر: {{ st.age }} سنة</p>
-                <p>المستوى: {{ st.level }}</p>
-                <p>المعدل: {{ st.gpa }}</p>
-            </div>
-            
-            <form method="post" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger">نعم، احذف</button>
-            </form>
-            <a href="{% url 'Show' %}" class="btn btn-secondary">إلغاء</a>
-        {% endif %}
-    </div>
-</body>
-</html>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

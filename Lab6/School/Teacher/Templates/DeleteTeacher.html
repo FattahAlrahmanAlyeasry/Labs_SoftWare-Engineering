@@ -1,7 +1,21 @@
 
-{% include 'base.html' %}
-{%  include 'header.html'  %}
- {% block  content %}
-<h1>لقد تم حذف بيانات المعلم بنجاح</h1>
-{% endblock content  %} 
-{% include 'footer.html' %}
+{% extends 'base.html' %}
+
+{% block title %}حذف معلم - نظام إدارة المدرسة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>حذف معلم</h2>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'show' %}" class="btn">العودة إلى قائمة المعلمين</a>
+        </div>
+    {% else %}
+        <p style="text-align: center; font-size: 1.2em; margin-bottom: 30px;">لقد تم حذف بيانات المعلم بنجاح.</p>
+        <div style="text-align: center;">
+            <a href="{% url 'show' %}" class="btn btn-secondary">العودة إلى قائمة المعلمين</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

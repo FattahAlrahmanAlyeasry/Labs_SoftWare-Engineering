@@ -1,106 +1,36 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            direction: rtl;
-            margin: 0;
-            padding: 20px;
-        }
-        .login-container {
-            max-width: 400px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .messages {
-            margin-bottom: 20px;
-        }
-        .alert {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .register-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h2>تسجيل الدخول</h2>
-        
-        {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
-        
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="username">اسم المستخدم:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="password">كلمة المرور:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            
-            <button type="submit" class="btn">تسجيل الدخول</button>
-        </form>
-        
-        <div class="register-link">
-            <p>ليس لديك حساب؟ <a href="{% url 'register' %}">إنشاء حساب جديد</a></p>
+{% extends 'base.html' %}
+
+{% block title %}تسجيل الدخول - نظام إدارة المدرسة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>تسجيل الدخول</h2>
+    
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
         </div>
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">اسم المستخدم:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">كلمة المرور:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <button type="submit" class="btn">تسجيل الدخول</button>
+    </form>
+    
+    <div class="register-link" style="text-align: center; margin-top: 20px;">
+        <p>ليس لديك حساب؟ <a href="{% url 'register' %}">إنشاء حساب جديد</a></p>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

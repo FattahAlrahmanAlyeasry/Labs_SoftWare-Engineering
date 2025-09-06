@@ -6,8 +6,8 @@ td a{
     color:black;
 }
 table{
-    margin-left:50px;
-    margin-right:300px;
+    margin: 0 auto;
+    width: 100%;
 }
 .add-st{
     font-size:32px;
@@ -20,41 +20,93 @@ table{
     color:white;
     border: sloid 5px;
 }
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #3e8e41;
+}
+.btn-secondary {
+    background-color: #e7e7e7;
+    color: black;
+}
+.btn-secondary:hover {
+    background-color: #ddd;
+}
+.btn-danger {
+    background-color: #f44336;
+}
+.btn-danger:hover {
+    background-color: #da190b;
+}
 </style>
-{% include 'base.html' %}
-{%  include 'header.html'  %}
- {% block  content %}
- <h1>جميع المعلمين :</h1>
- <a href="{% url 'AddTeacher' %}" class="add-st">اظافه معلم جديد</a>
- <table border="2">
-    <tr>
-        <th>الاسم</th>
-        <th>العمر</th>
-        <th>الراتب</th>
-        <th>الجنس</th>
-        <th>الصوره</th>
-        <th>التقرير</th>
-<th colspan="2">التحكم</th>
-    </tr>
+{% extends 'base.html' %}
 
-     {% for ob in st %}
-     <tr>
-     <td>{{ob.name}}</td>
-     <td>{{ob.age}}</td>
-     <td>{{ob.salary}}</td>
-     <td>{{ob.gender}}</td>
-     <td>  {% if ob.image %}
-    <img src="{{ ob.image.url }}" alt="{{ ob.name }}" width="100" style="border-radius: 5px;">
-  {% else %}
-    <span style="color: #666; font-style: italic;">لا توجد صورة</span>
-  {% endif %}</td>
-     <td>{{ob.file_report}}</td>
-        <td><a href=" {% url 'DeleteTeacher' ob.id %} ">حذف</a></td>
-    <td><a href="{% url 'EditTeacher' ob.id %}">تعديل</a></td>
-     </tr>
-     
-     {% endfor %} 
- 
- </table>
-{% endblock content  %} 
+{% block title %}إدارة المعلمين - نظام إدارة المدرسة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>إدارة المعلمين</h2>
+    <div style="margin-bottom: 20px; text-align: center;">
+        <a href="{% url 'AddTeacher' %}" class="btn">إضافة معلم جديد</a>
+    </div>
+    {% if st %}
+        <table>
+            <thead>
+                <tr>
+                    <th>الاسم</th>
+                    <th>العمر</th>
+                    <th>الجنس</th>
+                    <th>الراتب</th>
+                    <th>الصورة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in st %}
+                    <tr>
+                        <td>{{ teacher.name }}</td>
+                        <td>{{ teacher.age }}</td>
+                        <td>{{ teacher.gender }}</td>
+                        <td>{{ teacher.salary }}</td>
+                        <td>
+                            {% if teacher.image %}
+                                <img src="{{ teacher.image.url }}" alt="{{ teacher.name }}" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
+                            {% else %}
+                                غير متوفر
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'EditTeacher' teacher.id %}" class="btn btn-secondary" style="padding: 5px 10px; margin-left: 5px;">تعديل</a>
+                            <a href="{% url 'DeleteTeacher' teacher.id %}" class="btn btn-danger" style="padding: 5px 10px;">حذف</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align: center; color: #777;">لا يوجد معلمين لعرضهم حاليًا.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% include 'header.html' %}
+
 {% include 'footer.html' %}

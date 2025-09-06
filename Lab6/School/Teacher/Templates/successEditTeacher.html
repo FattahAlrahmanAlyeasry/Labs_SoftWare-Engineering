@@ -1,7 +1,14 @@
 
-{% include 'base.html' %}
-{%  include 'header.html'  %}
- {% block  content %}
-<h1>لقد تم تعديل بيانات المعلم  بنجاح</h1>
-{% endblock content  %} 
-{% include 'footer.html' %}
+{% extends 'base.html' %}
+
+{% block title %}تم التعديل بنجاح - نظام إدارة المدرسة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>تم التعديل بنجاح</h2>
+    <div class="alert alert-success">تم تحديث بيانات المعلم بنجاح.</div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'show' %}" class="btn">العودة إلى قائمة المعلمين</a>
+    </div>
+</div>
+{% endblock %}

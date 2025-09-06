@@ -6,8 +6,8 @@ td a{
     color:black;
 }
 table{
-    margin-left:50px;
-    margin-right:300px;
+    margin: 0 auto;
+    width: 100%;
 }
 .add-st{
     font-size:32px;
@@ -20,45 +20,105 @@ table{
     color:white;
     border: sloid 5px;
 }
+.card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.card table th, .card table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+.card table th {
+    background-color: #f0f0f0;
+}
+.card .btn {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.card .btn:hover {
+    background-color: #3e8e41;
+}
+.card .btn-secondary {
+    background-color: #ccc;
+    color: #333;
+}
+.card .btn-secondary:hover {
+    background-color: #aaa;
+}
+.card .btn-danger {
+    background-color: #e74c3c;
+    color: #fff;
+}
+.card .btn-danger:hover {
+    background-color: #c0392b;
+}
 </style>
-{% include 'base.html' %}
-{%  include 'header.html'  %}
- {% block  content %}
- <h1>جميع الطلاب :</h1>
- <a href="{% url 'add' %}" class="add-st">اظافه طالب جديد</a>
- <table border="2">
-    <tr>
-        <th>الاسم</th>
-        <th>العمر</th>
-        <th>الجنس</th>
-        <th>المعدل</th>
-        <th>المستوى</th>
-        <th>الصوره</th>
-        <th>التقرير</th>
-<th colspan="2">التحكم</th>
-    </tr>
+{% extends 'base.html' %}
 
-     {% for ob in st %}
-     <tr>
-     <td>{{ob.name}}</td>
-     <td>{{ob.age}}</td>
-     <td>{{ob.gender}}</td>
-     <td>{{ob.level}}</td>
-     <td>{{ob.gpa}}</td>
-    <td>
-  {% if ob.image %}
-    <img src="{{ ob.image.url }}" alt="{{ ob.name }}" width="100" style="border-radius: 5px;">
-  {% else %}
-    <span style="color: #666; font-style: italic;">لا توجد صورة</span>
-  {% endif %}
-</td>
- <td>{{ob.file_report}}</td>
-     <td><a href=" {% url 'delete' ob.id %} ">حذف</a></td>
-    <td><a href="{% url 'edit' ob.id %}">تعديل</a></td>
-     </tr>
-     
-     {% endfor %} 
- 
- </table>
-{% endblock content  %} 
+{% block title %}إدارة الطلاب - نظام إدارة المدرسة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>إدارة الطلاب</h2>
+    <div style="margin-bottom: 20px; text-align: center;">
+        <a href="{% url 'add' %}" class="btn">إضافة طالب جديد</a>
+    </div>
+    {% if st %}
+        <table>
+            <thead>
+                <tr>
+                    <th>الاسم</th>
+                    <th>العمر</th>
+                    <th>الجنس</th>
+                    <th>المستوى</th>
+                    <th>المعدل التراكمي</th>
+                    <th>الصورة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in st %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.age }}</td>
+                        <td>{{ student.gender }}</td>
+                        <td>{{ student.level }}</td>
+                        <td>{{ student.gpa }}</td>
+                        <td>
+                            {% if student.image %}
+                                <img src="{{ student.image.url }}" alt="{{ student.name }}" style="max-width: 50px; max-height: 50px; border-radius: 50%;">
+                            {% else %}
+                                غير متوفر
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'edit' student.id %}" class="btn btn-secondary" style="padding: 5px 10px; margin-left: 5px;">تعديل</a>
+                            <a href="{% url 'delete' student.id %}" class="btn btn-danger" style="padding: 5px 10px;">حذف</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p style="text-align: center; color: #777;">لا يوجد طلاب لعرضهم حاليًا.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
 {% include 'footer.html' %}

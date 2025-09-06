@@ -1,163 +1,66 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء حساب جديد</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            direction: rtl;
-            margin: 0;
-            padding: 20px;
-        }
-        .register-container {
-            max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"], input[type="email"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .btn {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .btn:hover {
-            background-color: #218838;
-        }
-        .messages {
-            margin-bottom: 20px;
-        }
-        .alert {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .login-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        .errorlist {
-            color: #dc3545;
-            list-style: none;
-            padding: 0;
-            margin: 5px 0;
-        }
-        .errorlist li {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            padding: 5px;
-            border-radius: 3px;
-            margin-bottom: 5px;
-        }
-    </style>
-</head>
-<body>
-    <div class="register-container">
-        <h2>إنشاء حساب جديد</h2>
+{% extends 'base.html' %}
+
+{% block title %}إنشاء حساب جديد - نظام إدارة المدرسة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>إنشاء حساب جديد</h2>
+    <form method="post">
+        {% csrf_token %}
         
-        {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
-        
-        <form method="post">
-            {% csrf_token %}
-            
-            <div class="form-group">
-                <label for="{{ form.username.id_for_label }}">اسم المستخدم:</label>
-                {{ form.username }}
-                {% if form.username.errors %}
-                    <ul class="errorlist">
-                        {% for error in form.username.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-            
-            <div class="form-group">
-                <label for="{{ form.email.id_for_label }}">البريد الإلكتروني:</label>
-                {{ form.email }}
-                {% if form.email.errors %}
-                    <ul class="errorlist">
-                        {% for error in form.email.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-            
-            <div class="form-group">
-                <label for="{{ form.password1.id_for_label }}">كلمة المرور:</label>
-                {{ form.password1 }}
-                {% if form.password1.errors %}
-                    <ul class="errorlist">
-                        {% for error in form.password1.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-            
-            <div class="form-group">
-                <label for="{{ form.password2.id_for_label }}">تأكيد كلمة المرور:</label>
-                {{ form.password2 }}
-                {% if form.password2.errors %}
-                    <ul class="errorlist">
-                        {% for error in form.password2.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-            
-            <button type="submit" class="btn">إنشاء الحساب</button>
-        </form>
-        
-        <div class="login-link">
-            <p>لديك حساب بالفعل؟ <a href="{% url 'userlogin' %}">تسجيل الدخول</a></p>
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label }}">اسم المستخدم:</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <ul class="errorlist">
+                    {% for error in form.username.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
+        
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">البريد الإلكتروني:</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <ul class="errorlist">
+                    {% for error in form.email.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}">كلمة المرور:</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <ul class="errorlist">
+                    {% for error in form.password1.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}">تأكيد كلمة المرور:</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <ul class="errorlist">
+                    {% for error in form.password2.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn">إنشاء الحساب</button>
+    </form>
+    
+    <div class="login-link" style="text-align: center; margin-top: 20px;">
+        <p>لديك حساب بالفعل؟ <a href="{% url 'userlogin' %}">تسجيل الدخول</a></p>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

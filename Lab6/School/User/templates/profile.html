@@ -1,5 +1,59 @@
-<h1>الملف الشخصي</h1>
-<p>اسم المستخدم: {{ profile.user.username }}</p>
-<p>السيرة الذاتية: {{ profile.bio }}</p>
-<p>الموقع: {{ profile.location }}</p>
-<p>تاريخ الميلاد: {{ profile.birth_date }}</p>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}الملف الشخصي - نظام إدارة المدرسة{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>الملف الشخصي</h2>
+    <div class="profile-container">
+        <div class="profile-info">
+            <h2>معلومات المستخدم</h2>
+            <p><strong>اسم المستخدم:</strong> {{ profile.user.username }}</p>
+            <p><strong>البريد الإلكتروني:</strong> {{ profile.user.email|default:"غير متوفر" }}</p>
+            <p><strong>السيرة الذاتية:</strong> {{ profile.bio|default:"غير متوفرة" }}</p>
+            <p><strong>الموقع:</strong> {{ profile.location|default:"غير متوفر" }}</p>
+            <p><strong>تاريخ الميلاد:</strong> {{ profile.birth_date|default:"غير متوفر" }}</p>
+        </div>
+        <div class="profile-picture">
+            <h2>الصورة الشخصية</h2>
+            {% if profile.image %}
+                <img src="{{ profile.image.url }}" alt="الصورة الشخصية" style="max-width: 200px; max-height: 200px; border-radius: 50%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); margin-bottom: 15px;">
+            {% else %}
+                <img src="{% static 'default_profile.png' %}" alt="الصورة الافتراضية" style="max-width: 200px; max-height: 200px; border-radius: 50%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); margin-bottom: 15px;">
+                <p>لم يتم رفع صورة شخصية بعد.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="#edit-profile" class="btn">تعديل الملف الشخصي</a>
+    </div>
+</div>
+
+<div class="card" id="edit-profile">
+    <h2>تعديل الملف الشخصي</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.bio.id_for_label }}">{{ form.bio.label }}:</label>
+            {{ form.bio }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.location.id_for_label }}">{{ form.location.label }}:</label>
+            {{ form.location }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.birth_date.id_for_label }}">{{ form.birth_date.label }}:</label>
+            {{ form.birth_date }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.image.id_for_label }}">{{ form.image.label }}:</label>
+            {{ form.image }}
+            {% if profile.image %}
+                <p style="margin-top: 10px;">الصورة الحالية: <img src="{{ profile.image.url }}" alt="الصورة الحالية" style="max-width: 50px; max-height: 50px; border-radius: 50%;"></p>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn">حفظ التغييرات</button>
+    </form>
+</div>
+{% endblock %}

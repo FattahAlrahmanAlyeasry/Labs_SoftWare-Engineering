@@ -1,6 +1,56 @@
-<style>
-    body{direction:rtl;
-    background-color:rgba(211, 221, 221, 1);
-}
-*{direction:rtl;}
-</style>
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}نظام إدارة المدرسة{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>نظام إدارة المدرسة</h1>
+            <nav>
+                {% if user.is_authenticated %}
+                    <a href="/Student/">الصفحة الرئيسية</a>
+                    <a href="{% url 'Show' %}">إدارة الطلاب</a>
+                    <a href="{% url 'show' %}">إدارة المعلمين</a>
+                    <a href="{% url 'send_message' %}">إرسال رسالة</a>
+                    <a href="{% url 'profile' %}">الملف الشخصي</a>
+                    <a href="{% url 'UserLogout' %}">تسجيل الخروج</a>
+                {% else %}
+                    <a href="{% url 'userlogin' %}">تسجيل الدخول</a>
+                    <a href="{% url 'register' %}">إنشاء حساب</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p> 2025 نظام إدارة المدرسة. جميع الحقوق محفوظة.</p>
+            <p>تم تطويره بكل ❤️ بواسطة فريق المشروع</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -150,6 +150,12 @@ LOCALE_PATHS = [
 ]
 
 # Security Settings
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:23995",
+    "http://localhost:23995",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+]
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
@@ -165,22 +171,6 @@ CSRF_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 3600  # 1 hour
 
-# Django REST Framework (disabled for now)
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.SessionAuthentication',
-#     ],
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAuthenticated',
-#     ],
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     'PAGE_SIZE': 20,
-#     'DEFAULT_FILTER_BACKENDS': [
-#         'django_filters.rest_framework.DjangoFilterBackend',
-#         'rest_framework.filters.SearchFilter',
-#         'rest_framework.filters.OrderingFilter',
-#     ],
-# }
 
 # Logging Configuration
 LOGGING = {
@@ -232,13 +222,15 @@ LOGS_DIR = BASE_DIR / 'logs'
 LOGS_DIR.mkdir(exist_ok=True)
 
 # Email Configuration (for production)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Production
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'fattahalrhmanalyeasry@gmail.com'
+EMAIL_HOST_PASSWORD = 'omqzrqwlgrioiqew'
+DEFAULT_FROM_EMAIL = 'fattahalrhmanalyeasry@gmail.com'
+
+# Note: For Gmail, you need to use an App Password if 2FA is enabled. Generate it from Google Account settings.
 
 # Cache Configuration
 CACHES = {

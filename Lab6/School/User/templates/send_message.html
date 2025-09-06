@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}إرسال رسالة{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3><i class="fas fa-envelope"></i> إرسال رسالة إلكترونية</h3>
+                    <p class="mb-0">من: فتح الرحمن الياسري</p>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label"><strong>إلى:</strong></label>
+                            <input type="email" class="form-control" value="malekalmosanif256@gmail.com" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label"><strong>الموضوع:</strong></label>
+                            <input type="text" class="form-control" value="رسالة من فتح الرحمن الياسري" readonly>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="message" class="form-label"><strong>نص الرسالة:</strong></label>
+                            <textarea 
+                                class="form-control" 
+                                id="message" 
+                                name="message" 
+                                rows="12" 
+                                placeholder="اكتب رسالتك هنا... (يمكن أن تحتوي على أكثر من 200 كلمة)"
+                                required
+                                style="min-height: 300px;"
+                            ></textarea>
+                            <div class="form-text">
+                                <small id="wordCount" class="text-muted">عدد الكلمات: 0</small>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-paper-plane"></i> إرسال الرسالة
+                            </button>
+                            <a href="{% url 'index' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> العودة للرئيسية
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="card-footer bg-light text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-calendar-alt"></i> 
+                        تاريخ كتابة الرسالة: <span id="currentDate"></span>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// عرض التاريخ الحالي
+document.getElementById('currentDate').textContent = new Date().toLocaleDateString('ar-SA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+});
+
+// عداد الكلمات
+document.getElementById('message').addEventListener('input', function() {
+    const text = this.value.trim();
+    const wordCount = text === '' ? 0 : text.split(/\s+/).length;
+    document.getElementById('wordCount').textContent = `عدد الكلمات: ${wordCount}`;
+    
+    if (wordCount > 200) {
+        document.getElementById('wordCount').className = 'text-success';
+    } else {
+        document.getElementById('wordCount').className = 'text-muted';
+    }
+});
+</script>
+
+<style>
+.card {
+    border-radius: 15px;
+    border: none;
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 30px;
+    font-weight: bold;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-secondary {
+    border-radius: 8px;
+    padding: 10px 30px;
+}
+
+textarea {
+    resize: vertical;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.card-footer {
+    border-radius: 0 0 15px 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+</style>
+{% endblock %}
