@@ -1,0 +1,214 @@
+{% extends 'core/base.html' %}
+
+{% block title %}لوحة التحكم - نظام إدارة المدرسة{% endblock %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item active text-white">لوحة التحكم</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-4 text-center mb-4">
+            <i class="fas fa-tachometer-alt me-3"></i>
+            لوحة التحكم الرئيسية
+        </h1>
+        <p class="lead text-center text-muted">مرحباً بك في نظام إدارة المدرسة المتطور</p>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-5">
+    <div class="col-md-3 mb-4">
+        <div class="stats-card">
+            <i class="fas fa-user-graduate fa-3x mb-3"></i>
+            <h3>{{ total_students }}</h3>
+            <p class="mb-0">إجمالي الطلاب</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="stats-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+            <i class="fas fa-chalkboard-teacher fa-3x mb-3"></i>
+            <h3>{{ total_teachers }}</h3>
+            <p class="mb-0">إجمالي المعلمين</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="stats-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <i class="fas fa-building fa-3x mb-3"></i>
+            <h3>{{ total_departments }}</h3>
+            <p class="mb-0">الأقسام الأكاديمية</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="stats-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <i class="fas fa-chart-line fa-3x mb-3"></i>
+            <h3>{{ avg_gpa|floatformat:2 }}</h3>
+            <p class="mb-0">متوسط المعدل التراكمي</p>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h2 class="mb-4"><i class="fas fa-bolt me-2"></i>الإجراءات السريعة</h2>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">إضافة طالب جديد</h5>
+                <p class="card-text">تسجيل طالب جديد في النظام</p>
+                <a href="{% url 'core:student_create' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i>إضافة طالب
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-user-tie fa-3x text-success mb-3"></i>
+                <h5 class="card-title">إضافة معلم جديد</h5>
+                <p class="card-text">تسجيل معلم جديد في النظام</p>
+                <a href="{% url 'core:teacher_create' %}" class="btn btn-success">
+                    <i class="fas fa-plus me-1"></i>إضافة معلم
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-file-alt fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">التقارير</h5>
+                <p class="card-text">عرض وإنشاء التقارير المختلفة</p>
+                <a href="{% url 'core:report_list' %}" class="btn btn-warning">
+                    <i class="fas fa-chart-bar me-1"></i>عرض التقارير
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-user-graduate me-2"></i>الطلاب المضافون حديثاً</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_students %}
+                    <div class="list-group list-group-flush">
+                        {% for student in recent_students %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">{{ student.full_name }}</h6>
+                                <small class="text-muted">{{ student.student_id }} - {{ student.department.name }}</small>
+                            </div>
+                            <small class="text-muted">{{ student.created_at|date:"d/m/Y" }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'core:student_list' %}" class="btn btn-outline-primary btn-sm">
+                            عرض جميع الطلاب <i class="fas fa-arrow-left ms-1"></i>
+                        </a>
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center">لا توجد بيانات طلاب حديثة</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-chalkboard-teacher me-2"></i>المعلمون المضافون حديثاً</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_teachers %}
+                    <div class="list-group list-group-flush">
+                        {% for teacher in recent_teachers %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">{{ teacher.full_name }}</h6>
+                                <small class="text-muted">{{ teacher.employee_id }} - {{ teacher.department.name }}</small>
+                            </div>
+                            <small class="text-muted">{{ teacher.created_at|date:"d/m/Y" }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{% url 'core:teacher_list' %}" class="btn btn-outline-success btn-sm">
+                            عرض جميع المعلمين <i class="fas fa-arrow-left ms-1"></i>
+                        </a>
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center">لا توجد بيانات معلمين حديثة</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Department Statistics -->
+{% if department_stats %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-building me-2"></i>إحصائيات الأقسام</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>اسم القسم</th>
+                                <th>رمز القسم</th>
+                                <th>عدد الطلاب</th>
+                                <th>عدد المعلمين</th>
+                                <th>رئيس القسم</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dept in department_stats %}
+                            <tr>
+                                <td><strong>{{ dept.name }}</strong></td>
+                                <td><span class="badge bg-primary">{{ dept.code }}</span></td>
+                                <td>
+                                    <span class="badge bg-info">{{ dept.student_count }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">{{ dept.teacher_count }}</span>
+                                </td>
+                                <td>{{ dept.head_of_department.full_name|default:"غير محدد" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Chart.js for statistics (if needed)
+    // Add any dashboard-specific JavaScript here
+    
+    // Animate statistics cards on load
+    $(document).ready(function() {
+        $('.stats-card').each(function(index) {
+            $(this).delay(index * 200).fadeIn(500);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,237 @@
+{% extends 'core/base.html' %}
+
+{% block title %}قائمة الطلاب - نظام إدارة المدرسة{% endblock %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item"><a href="{% url 'core:student_list' %}" class="text-white">الطلاب</a></li>
+<li class="breadcrumb-item active text-white">قائمة الطلاب</li>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="display-5">
+            <i class="fas fa-user-graduate me-3"></i>
+            إدارة الطلاب
+        </h1>
+        <p class="text-muted">عرض وإدارة جميع الطلاب المسجلين في النظام</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'core:student_create' %}" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus me-2"></i>إضافة طالب جديد
+        </a>
+    </div>
+</div>
+
+<!-- Search and Filter -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="fas fa-search me-2"></i>البحث والتصفية</h5>
+    </div>
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">البحث بالاسم</label>
+                <input type="text" name="name" class="form-control" placeholder="اسم الطالب" 
+                       value="{{ filter.form.name.value|default:'' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">رقم الطالب</label>
+                <input type="text" name="student_id" class="form-control" placeholder="رقم الطالب"
+                       value="{{ filter.form.student_id.value|default:'' }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">القسم</label>
+                <select name="department" class="form-select">
+                    <option value="">جميع الأقسام</option>
+                    {% for dept in departments %}
+                    <option value="{{ dept.id }}" 
+                            {% if filter.form.department.value == dept.id|stringformat:"s" %}selected{% endif %}>
+                        {{ dept.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">المستوى</label>
+                <select name="level" class="form-select">
+                    <option value="">جميع المستويات</option>
+                    <option value="1" {% if filter.form.level.value == "1" %}selected{% endif %}>المستوى الأول</option>
+                    <option value="2" {% if filter.form.level.value == "2" %}selected{% endif %}>المستوى الثاني</option>
+                    <option value="3" {% if filter.form.level.value == "3" %}selected{% endif %}>المستوى الثالث</option>
+                    <option value="4" {% if filter.form.level.value == "4" %}selected{% endif %}>المستوى الرابع</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search me-1"></i>بحث
+                </button>
+                <a href="{% url 'core:student_list' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-times me-1"></i>إلغاء التصفية
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Students Table -->
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">قائمة الطلاب ({{ students|length }} طالب)</h5>
+        <div>
+            <button class="btn btn-outline-success btn-sm">
+                <i class="fas fa-download me-1"></i>تصدير Excel
+            </button>
+            <button class="btn btn-outline-info btn-sm">
+                <i class="fas fa-print me-1"></i>طباعة
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        {% if students %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>الصورة</th>
+                        <th>رقم الطالب</th>
+                        <th>الاسم الكامل</th>
+                        <th>القسم</th>
+                        <th>المستوى</th>
+                        <th>المعدل التراكمي</th>
+                        <th>العمر</th>
+                        <th>تاريخ التسجيل</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr class="searchable-item">
+                        <td>
+                            {% if student.user.profile_image %}
+                            <img src="{{ student.user.profile_image.url }}" 
+                                 alt="{{ student.full_name }}" 
+                                 class="rounded-circle" 
+                                 width="40" height="40">
+                            {% else %}
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" 
+                                 style="width: 40px; height: 40px; font-size: 18px;">
+                                {{ student.user.first_name|first }}
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td><strong>{{ student.student_id }}</strong></td>
+                        <td>{{ student.full_name }}</td>
+                        <td>
+                            <span class="badge bg-primary">{{ student.department.name }}</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-info">المستوى {{ student.level }}</span>
+                        </td>
+                        <td>
+                            {% if student.gpa >= 3.5 %}
+                            <span class="badge bg-success">{{ student.gpa }}</span>
+                            {% elif student.gpa >= 2.5 %}
+                            <span class="badge bg-warning">{{ student.gpa }}</span>
+                            {% else %}
+                            <span class="badge bg-danger">{{ student.gpa }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ student.age }} سنة</td>
+                        <td>{{ student.enrollment_date|date:"d/m/Y" }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'core:student_detail' student.pk %}" 
+                                   class="btn btn-outline-info btn-sm" title="عرض التفاصيل">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'core:student_update' student.pk %}" 
+                                   class="btn btn-outline-warning btn-sm" title="تعديل">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'core:student_delete' student.pk %}" 
+                                   class="btn btn-outline-danger btn-sm delete-link" 
+                                   title="حذف"
+                                   data-confirm="هل أنت متأكد من حذف الطالب {{ student.full_name }}؟">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="تنقل الصفحات" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">الأولى</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">السابقة</a>
+                </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">
+                        صفحة {{ page_obj.number }} من {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">التالية</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">الأخيرة</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-user-graduate fa-5x text-muted mb-3"></i>
+            <h4 class="text-muted">لا توجد بيانات طلاب</h4>
+            <p class="text-muted">لم يتم العثور على أي طلاب مطابقين لمعايير البحث</p>
+            <a href="{% url 'core:student_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>إضافة أول طالب
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize search functionality
+    ready(function() {
+        const searchInput = document.createElement('input');
+        searchInput.type = 'text';
+        searchInput.id = 'quick-search';
+        searchInput.className = 'form-control mb-3';
+        searchInput.placeholder = 'بحث سريع في الجدول...';
+        
+        const tableContainer = document.querySelector('.table-responsive');
+        if (tableContainer) {
+            tableContainer.parentNode.insertBefore(searchInput, tableContainer);
+            
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const rows = document.querySelectorAll('tbody tr');
+                
+                rows.forEach(function(row) {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(query) ? '' : 'none';
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

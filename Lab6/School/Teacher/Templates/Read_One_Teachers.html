@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل المعلم</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            direction: rtl;
+            margin: 0;
+            padding: 20px;
+        }
+        .teacher-details {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .teacher-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .teacher-image img {
+            max-width: 200px;
+            border-radius: 10px;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .label {
+            font-weight: bold;
+            color: #333;
+        }
+        .value {
+            color: #666;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="teacher-details">
+        <h2>تفاصيل المعلم</h2>
+        
+        {% if teacher.image %}
+            <div class="teacher-image">
+                <img src="{{ teacher.image.url }}" alt="صورة المعلم">
+            </div>
+        {% endif %}
+        
+        <div class="info-row">
+            <span class="label">الاسم:</span>
+            <span class="value">{{ teacher.name }}</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">العمر:</span>
+            <span class="value">{{ teacher.age }} سنة</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">الراتب:</span>
+            <span class="value">{{ teacher.salary }} ريال</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">الجنس:</span>
+            <span class="value">{% if teacher.gender == 'Male' %}ذكر{% else %}أنثى{% endif %}</span>
+        </div>
+        
+        {% if teacher.report %}
+            <div class="info-row">
+                <span class="label">التقرير:</span>
+                <span class="value">{{ teacher.report }}</span>
+            </div>
+        {% endif %}
+        
+        {% if teacher.file_report %}
+            <div class="info-row">
+                <span class="label">ملف التقرير:</span>
+                <span class="value"><a href="{{ teacher.file_report.url }}" target="_blank">تحميل الملف</a></span>
+            </div>
+        {% endif %}
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="{% url 'EditTeacher' teacher.id %}" class="btn">تعديل</a>
+            <a href="{% url 'show' %}" class="btn">العودة للقائمة</a>
+        </div>
+    </div>
+</body>
+</html>

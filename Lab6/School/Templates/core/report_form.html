@@ -1,0 +1,93 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{% if object %}تعديل تقرير{% else %}إنشاء تقرير جديد{% endif %} - نظام إدارة المدرسة{% endblock %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item"><a href="{% url 'core:dashboard' %}" class="text-white">لوحة التحكم</a></li>
+<li class="breadcrumb-item"><a href="{% url 'core:report_list' %}" class="text-white">التقارير</a></li>
+<li class="breadcrumb-item active text-white">{% if object %}تعديل تقرير{% else %}إنشاء تقرير{% endif %}</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-10 mx-auto">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>{% if object %}تعديل تقرير{% else %}إنشاء تقرير جديد{% endif %}</h5>
+      </div>
+      <div class="card-body">
+        <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label class="form-label">الطالب</label>
+            {{ form.student }}
+            {% if form.student.errors %}
+              <div class="text-danger small">{{ form.student.errors|striptags }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">عنوان التقرير</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+              <div class="text-danger small">{{ form.title.errors|striptags }}</div>
+            {% endif %}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">محتوى التقرير</label>
+            {{ form.content }}
+            {% if form.content.errors %}
+              <div class="text-danger small">{{ form.content.errors|striptags }}</div>
+            {% endif %}
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">بداية الأسبوع</label>
+              {{ form.week_start }}
+              {% if form.week_start.errors %}
+                <div class="text-danger small">{{ form.week_start.errors|striptags }}</div>
+              {% endif %}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">نهاية الأسبوع</label>
+              {{ form.week_end }}
+              {% if form.week_end.errors %}
+                <div class="text-danger small">{{ form.week_end.errors|striptags }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row g-3 mt-1">
+            <div class="col-md-6">
+              <label class="form-label">التقييم (1 - 100)</label>
+              {{ form.rating }}
+              {% if form.rating.errors %}
+                <div class="text-danger small">{{ form.rating.errors|striptags }}</div>
+              {% endif %}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">مرفق (اختياري)</label>
+              {{ form.attachment }}
+              {% if form.attachment.errors %}
+                <div class="text-danger small">{{ form.attachment.errors|striptags }}</div>
+              {% endif %}
+              {% if object and object.attachment %}
+                <div class="form-text">مرفق حالي: <a href="{{ object.attachment.url }}" target="_blank">تحميل</a></div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'core:report_list' %}" class="btn btn-outline-secondary"><i class="fas fa-arrow-right me-1"></i>رجوع</a>
+            <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i>حفظ</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

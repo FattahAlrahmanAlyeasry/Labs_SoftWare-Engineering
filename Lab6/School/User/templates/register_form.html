@@ -1,0 +1,13 @@
+
+</style>
+{% include 'base.html' %}
+{%  include 'header.html'  %}
+ {% block  content %}
+<h1>واجهه تسجيل الدخول</h1>
+<form method='post' enctype="multipart/form-data">
+     {% csrf_token %} 
+    
+
+</form>
+{% endblock content  %} 
+{% include 'footer.html' %}

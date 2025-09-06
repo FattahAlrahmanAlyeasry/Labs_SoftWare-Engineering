@@ -1,0 +1,53 @@
+<style>
+    nav{height:110px;}
+nav,ul {
+display:flex;
+background-color:rgba(87, 65, 4, 1);
+padding:30px;
+border-radius:white solid 5px;
+    list-style-type:none;
+}
+ul li {
+    justify-content:space-around;
+    padding:10px;
+    color:white;
+    list-style-type:none;
+
+}
+nav ul li a{
+    margin:80px;
+font-size:32px;
+justify-content:space-around;
+color:white;
+list-style-type:none;
+}
+</style>
+
+<nav>
+    <ul>
+        <li>
+            <a href="{% url 'index'  %}">الرئيسية</a>
+        </li>
+         <li>
+            <a href="{% url 'Show'  %}">الطلاب</a>
+        </li>
+         <li>
+            <a href="{% url 'show'  %}">المعلمين</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li>
+            <a href="{% url 'profile' %}">الملف الشخصي</a>
+        </li>
+        <li>
+            <a href="{% url 'UserLogout' %}">تسجيل الخروج</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{% url 'userlogin' %}">تسجيل الدخول</a>
+        </li>
+        <li>
+            <a href="{% url 'register' %}">إنشاء حساب</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>

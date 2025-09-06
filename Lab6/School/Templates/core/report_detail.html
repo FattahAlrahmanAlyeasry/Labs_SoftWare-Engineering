@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+
+{% block title %}تفاصيل التقرير - نظام إدارة المدرسة{% endblock %}
+
+{% block breadcrumb_items %}
+<li class="breadcrumb-item"><a href="{% url 'core:dashboard' %}" class="text-white">لوحة التحكم</a></li>
+<li class="breadcrumb-item"><a href="{% url 'core:report_list' %}" class="text-white">التقارير</a></li>
+<li class="breadcrumb-item active text-white">تفاصيل التقرير</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-10 mx-auto">
+    <div class="card mb-3">
+      <div class="card-header bg-info text-white">
+        <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>{{ report.title }}</h5>
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <strong>الطالب:</strong>
+            <div>{{ report.student.full_name }} ({{ report.student.student_id }})</div>
+          </div>
+          <div class="col-md-6">
+            <strong>الفترة:</strong>
+            <div>{{ report.week_start|date:"Y-m-d" }} — {{ report.week_end|date:"Y-m-d" }}</div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <strong>التقييم:</strong>
+            <div><span class="badge bg-primary">{{ report.rating }}%</span></div>
+          </div>
+          <div class="col-md-6">
+            <strong>أنشئ بواسطة:</strong>
+            <div>{{ report.created_by.get_full_name|default:report.created_by.username|default:"-" }}</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <strong>المحتوى:</strong>
+          <div class="mt-2">{{ report.content|linebreaks }}</div>
+        </div>
+
+        {% if report.attachment %}
+        <div class="mb-3">
+          <strong>المرفق:</strong>
+          <div class="mt-2"><a href="{{ report.attachment.url }}" target="_blank" class="btn btn-outline-secondary btn-sm"><i class="fas fa-download me-1"></i>تحميل</a></div>
+        </div>
+        {% endif %}
+
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'core:report_list' %}" class="btn btn-outline-secondary"><i class="fas fa-arrow-right me-1"></i>رجوع</a>
+          <div>
+            <a href="{% url 'core:report_update' report.pk %}" class="btn btn-warning"><i class="fas fa-edit me-1"></i>تعديل</a>
+            <a href="{% url 'core:report_delete' report.pk %}" class="btn btn-danger"><i class="fas fa-trash me-1"></i>حذف</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

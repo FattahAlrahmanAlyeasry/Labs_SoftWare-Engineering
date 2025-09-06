@@ -1,0 +1,60 @@
+<style>
+td a{
+    background-color:rgb(130,66,220);
+    font-size:30px;
+    font-weight:bold;
+    color:black;
+}
+table{
+    margin-left:50px;
+    margin-right:300px;
+}
+.add-st{
+    font-size:32px;
+    width:40px;
+    height:90px;
+    margin-right:500px;
+    margin-top:20px;
+    text-decoration:none;
+    background-color:rgba(68, 92, 73, 1);
+    color:white;
+    border: sloid 5px;
+}
+</style>
+{% include 'base.html' %}
+{%  include 'header.html'  %}
+ {% block  content %}
+ <h1>جميع المعلمين :</h1>
+ <a href="{% url 'AddTeacher' %}" class="add-st">اظافه معلم جديد</a>
+ <table border="2">
+    <tr>
+        <th>الاسم</th>
+        <th>العمر</th>
+        <th>الراتب</th>
+        <th>الجنس</th>
+        <th>الصوره</th>
+        <th>التقرير</th>
+<th colspan="2">التحكم</th>
+    </tr>
+
+     {% for ob in st %}
+     <tr>
+     <td>{{ob.name}}</td>
+     <td>{{ob.age}}</td>
+     <td>{{ob.salary}}</td>
+     <td>{{ob.gender}}</td>
+     <td>  {% if ob.image %}
+    <img src="{{ ob.image.url }}" alt="{{ ob.name }}" width="100" style="border-radius: 5px;">
+  {% else %}
+    <span style="color: #666; font-style: italic;">لا توجد صورة</span>
+  {% endif %}</td>
+     <td>{{ob.file_report}}</td>
+        <td><a href=" {% url 'DeleteTeacher' ob.id %} ">حذف</a></td>
+    <td><a href="{% url 'EditTeacher' ob.id %}">تعديل</a></td>
+     </tr>
+     
+     {% endfor %} 
+ 
+ </table>
+{% endblock content  %} 
+{% include 'footer.html' %}
